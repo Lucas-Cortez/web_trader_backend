@@ -1,4 +1,4 @@
-import { Trade } from "trade";
+import { Trade } from "enums/trade";
 
 export function executeOrder(tradeType: Trade, quantity: number, symbol: string) {
   console.log("tradeType", tradeType);

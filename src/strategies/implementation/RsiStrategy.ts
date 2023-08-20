@@ -1,5 +1,5 @@
-import { AnalysisStrategy } from "AnalysisStrategy";
-import { Errors } from "errors";
+import { AnalysisStrategy } from "strategies/AnalysisStrategy";
+import { Errors } from "enums/errors";
 import { RSI } from "technicalindicators";
 
 const PERIOD = 14;

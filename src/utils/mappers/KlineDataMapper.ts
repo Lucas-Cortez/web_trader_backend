@@ -1,4 +1,4 @@
-import { KlineData } from "KlineData";
+import { KlineData } from "klineData";
 
 export class KlineDataMapper {
   public static mapData(data: any): KlineData {

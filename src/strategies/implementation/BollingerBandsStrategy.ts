@@ -1,8 +1,8 @@
 import { BollingerBands } from "technicalindicators";
 import { BollingerBandsOutput } from "technicalindicators/declarations/volatility/BollingerBands";
 
-import { AnalysisStrategy } from "AnalysisStrategy";
-import { Errors } from "errors";
+import { AnalysisStrategy } from "strategies/AnalysisStrategy";
+import { Errors } from "enums/errors";
 
 const PERIOD = 20;
 
