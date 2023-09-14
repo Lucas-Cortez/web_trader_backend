@@ -1,9 +1,7 @@
-import { Profile } from "@prisma/client";
-import { prisma } from "config/prisma";
-import ms from "ms";
-import { PrismaProfileRepository } from "repositories/implementation/prisma/prismaProfileRepository";
-import { filterOrdersUsers } from "utils/helpers/filterOrdersUsers";
-import { filterSymbolsAndIntervals } from "utils/helpers/filterSymbolsAndIntervals";
+import { prisma } from "infra/config/prisma";
+import { PrismaProfileRepository } from "infrastructure/repositories/prisma/prisma-profile-repository";
+import { filterOrdersByinterval } from "utils/helpers/filterOrdersByinterval";
+import { getUniqueSymbolsAndIntervals } from "utils/helpers/filterSymbolsAndIntervals";
 import { KlineDataMapper } from "utils/mappers/KlineDataMapper";
 
 const DATA = {
@@ -36,10 +34,8 @@ export async function analyze() {
 
   const prismaProfileRepository = new PrismaProfileRepository(prisma);
 
-  const profiles = await prismaProfileRepository.getProfilesBySymbol(
-    candleData.symbol
-  );
+  const profiles = await prismaProfileRepository.getProfilesBySymbol(candleData.symbol);
 
-  const orderProfiles = filterOrdersUsers(candleData.eventTime, profiles);
-  const uniqueSymbolsAndIntervals = filterSymbolsAndIntervals(orderProfiles);
+  const orderProfiles = filterOrdersByinterval(candleData.eventTime, profiles);
+  const uniqueSymbolsAndIntervals = getUniqueSymbolsAndIntervals(orderProfiles);
 }

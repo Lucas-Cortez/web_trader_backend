@@ -1,6 +1,6 @@
 type Symbol = { symbol: string; interval: string };
 
-export function filterSymbolsAndIntervals(obj: Symbol[]) {
+export function getUniqueSymbolsAndIntervals(obj: Symbol[]) {
   const uniqueValuesMap = new Map<string, Symbol>();
 
   obj.forEach((v) => {

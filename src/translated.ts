@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as csv from "csv-parser";
 import * as talib from "talib"; // You'll need to install the TypeScript definitions for the 'talib' library.
-import * as config from "./config"; // Assuming you have a separate config file with constants.
+import * as config from "./infra/config"; // Assuming you have a separate config file with constants.
 
 let closes: number[] = [];
 let in_position: boolean = false;
