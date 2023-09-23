@@ -17,18 +17,35 @@ model User {
   salt     String
   password String
 
-  Profile Profile[]
+  profile Profile[]
 }
 
 model Profile {
-  id              String   @id @default(auto()) @map("_id") @db.ObjectId
-  interval        String
-  symbol          String
-  lastTransaction DateTime
-  lastAnalysis    DateTime
-  userId          String   @db.ObjectId
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  interval  String
+  symbol    String
+  lastOrder DateTime?
+  userId    String    @db.ObjectId
 
-  user User @relation(fields: [userId], references: [id])
+  user            User              @relation(fields: [userId], references: [id])
+  profilestrategy ProfileStrategy[]
+}
+
+model ProfileStrategy {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  profileId  String @db.ObjectId
+  strategyId String @db.ObjectId
+
+  profile  Profile  @relation(fields: [profileId], references: [id])
+  strategy Strategy @relation(fields: [strategyId], references: [id])
+}
+
+model Strategy {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  tag  String
+  name String
+
+  profilestrategy ProfileStrategy[]
 }
 
 // model KandleStick {

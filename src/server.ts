@@ -1,10 +1,10 @@
 import express from "express";
 import cors from "cors";
 import "express-async-errors";
-import { errorMiddleware } from "application/middlewares/error-middleware";
+import { errorMiddleware } from "application/middlewares/error.middleware";
+import { routes } from "application/routes";
 // import { EmailConsumer } from "queue/consumers/emailConsumer";
 // import { queueOrchestrator } from "queue/queue-orchestrator";
-import { routes } from "application/routes";
 
 const PORT = process.env.PORT || 8080;
 

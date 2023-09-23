@@ -15,10 +15,7 @@ export class JwtTokenService implements TokenService {
   }
 
   decode(token: string) {
-    const decoded = jwt.decode(token);
-    console.log(decoded);
-
-    // throw new Error("Method not implemented.");
+    return jwt.decode(token);
   }
 
   sign(user: UserEntity): { accessToken: string } {

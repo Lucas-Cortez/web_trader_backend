@@ -1,13 +1,11 @@
-import ms from "ms";
-import { v4 as uuid } from "uuid";
+import { generateObjectId } from "utils/helpers/generateObjectId";
 
 export interface IProfile {
   readonly id: string;
   readonly interval: string;
   readonly symbol: string;
-  readonly lastTransaction?: Date;
-  readonly lastAnalysis?: Date;
-  // readonly userId: string;
+  readonly strategiesIds: string[];
+  readonly lastOrder?: Date;
 }
 
 export class ProfileEntity implements IProfile {
@@ -15,8 +13,8 @@ export class ProfileEntity implements IProfile {
     public id: string,
     public interval: string,
     public symbol: string,
-    public lastTransaction?: Date,
-    public lastAnalysis?: Date, // public userId: string
+    public strategiesIds: string[],
+    public lastOrder?: Date,
   ) {}
 
   public static restore(profile: IProfile) {
@@ -24,22 +22,12 @@ export class ProfileEntity implements IProfile {
       profile.id,
       profile.interval,
       profile.symbol,
-      profile.lastTransaction,
-      profile.lastAnalysis,
+      profile.strategiesIds,
+      profile.lastOrder,
     );
   }
 
-  public static create(interval: string, symbol: string) {
-    return new ProfileEntity(uuid(), interval, symbol);
-  }
-
-  public isTimeToAnalyze(timestamp: number) {
-    if (!this.lastAnalysis || !this.lastTransaction) return true;
-
-    const lastTransactionSeconds = this.lastTransaction.getTime();
-
-    const nextTransactionSeconds = lastTransactionSeconds + ms(this.interval);
-
-    return timestamp > nextTransactionSeconds;
+  public static create(interval: string, symbol: string, strategiesIds: string[], lastOrder?: Date) {
+    return new ProfileEntity(generateObjectId(), interval, symbol, strategiesIds, lastOrder);
   }
 }
