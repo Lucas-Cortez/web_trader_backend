@@ -70,3 +70,4 @@ function format<T extends Record<string, any>>(builder: Mapper<T>, rawData: Reco
 }
 
 const data = format<KlineData>(builder, DATA);
+console.log(data);

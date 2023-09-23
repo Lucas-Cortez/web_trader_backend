@@ -1,7 +1,7 @@
 import { compare, hash, genSalt } from "bcrypt";
-import { HashingProvider } from "../../core/domain/providers/hashing.provider";
+import { HashingService } from "../../core/domain/services/hashing.service";
 
-export class BcryptHashingProvider implements HashingProvider {
+export class BcryptHashingService implements HashingService {
   async hash(data: string, salt: string) {
     return await hash(data, salt);
   }

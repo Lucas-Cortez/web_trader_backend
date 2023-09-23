@@ -1,7 +1,16 @@
-import { z } from "zod";
+import { ZodError, z } from "zod";
 
 export abstract class Dto {
-  protected static validate(values: z.SafeParseReturnType<any, any>[]) {
-    if (!values.every((v) => v.success)) throw new Error("create user parse failed");
+  protected static validate(values: Record<string, z.SafeParseReturnType<any, any>>) {
+    // console.log(values);
+
+    Object.entries(values).forEach(([k, v]) => {
+      if (!v.success) {
+        // console.log({ [k]: v.error.formErrors });
+        console.log(v.error.formErrors);
+
+        throw new Error(`[${k}]: ${v.error.formErrors.formErrors[0]}`);
+      }
+    });
   }
 }

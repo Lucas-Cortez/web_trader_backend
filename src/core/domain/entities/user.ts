@@ -1,4 +1,4 @@
-import { v4 as uuid } from "uuid";
+import { generateObjectId } from "utils/helpers/generateObjectId";
 
 export interface IUser {
   id: string;
@@ -22,6 +22,6 @@ export class UserEntity implements IUser {
   }
 
   public static create(email: string, name: string, salt: string, password: string) {
-    return new UserEntity(uuid(), email, name, salt, password);
+    return new UserEntity(generateObjectId(), email, name, salt, password);
   }
 }

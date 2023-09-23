@@ -1,9 +1,8 @@
 import { Router } from "express";
-import { createUserController } from "application/controllers/create-user";
-import { bindController } from "utils/helpers/bind-controllers";
+import { authRoutes } from "./auth.routes";
 
 const routes = Router();
 
-// routes.post("/user", bindController(createUserController));
+routes.use("/auth", authRoutes);
 
 export { routes };

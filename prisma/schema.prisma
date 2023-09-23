@@ -31,17 +31,17 @@ model Profile {
   user User @relation(fields: [userId], references: [id])
 }
 
-model KandleStick {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  interval   String
-  symbol     String
-  openPrice  String
-  closePrice String
-  highPrice  String
-  lowPrice   String
-  startTime  DateTime
-  closeTime  DateTime
-}
+// model KandleStick {
+//   id         String   @id @default(auto()) @map("_id") @db.ObjectId
+//   interval   String
+//   symbol     String
+//   openPrice  String
+//   closePrice String
+//   highPrice  String
+//   lowPrice   String
+//   startTime  DateTime
+//   closeTime  DateTime
+// }
 
 // model Symbol {
 //   id     String @id @default(auto()) @map("_id") @db.ObjectId
