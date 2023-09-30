@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import "express-async-errors";
+
 import { errorMiddleware } from "application/middlewares/error.middleware";
 import { routes } from "application/routes";
 // import { EmailConsumer } from "queue/consumers/emailConsumer";

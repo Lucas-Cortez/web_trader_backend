@@ -20,18 +20,18 @@ export class CreateProfileDTO extends Dto {
   }
 
   public static parse(request: Request) {
-    const { userId } = request;
+    const { user } = request;
     const { interval, symbol, strategiesIds } = request.body;
 
     super.validate({
       createProfile: createProfileSchema.safeParse({
         interval,
         symbol,
-        userId,
+        userId: user?.id,
         strategiesIds,
       }),
     });
 
-    return new CreateProfileDTO(interval, symbol, userId || "", strategiesIds);
+    return new CreateProfileDTO(interval, symbol, user?.id || "", strategiesIds);
   }
 }

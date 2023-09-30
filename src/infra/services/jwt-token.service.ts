@@ -1,3 +1,4 @@
+import { DecodedUserToken } from "core/domain/entities/token";
 import { UserEntity } from "core/domain/entities/user";
 import { TokenService } from "core/domain/services/token.service";
 import jwt from "jsonwebtoken";
@@ -14,8 +15,8 @@ export class JwtTokenService implements TokenService {
     }
   }
 
-  decode(token: string) {
-    return jwt.decode(token);
+  decode(token: string): DecodedUserToken {
+    return jwt.decode(token) as DecodedUserToken;
   }
 
   sign(user: UserEntity): { accessToken: string } {

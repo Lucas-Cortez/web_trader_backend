@@ -5,7 +5,7 @@ import { TokenService } from "core/domain/services/token.service";
 import { UserRepository } from "core/domain/repositories/user.repository";
 
 type SignInUserInput = { email: string; password: string };
-type SignInUserOutput = { accessToken: string; email: string };
+type SignInUserOutput = { accessToken: string; user: { id: string; email: string; name: string } };
 
 export class SignInUserUseCase implements IUseCase<SignInUserInput, SignInUserOutput> {
   constructor(
@@ -28,6 +28,6 @@ export class SignInUserUseCase implements IUseCase<SignInUserInput, SignInUserOu
 
     const { accessToken } = this.tokenService.sign(user);
 
-    return { accessToken, email: user.email };
+    return { accessToken, user: { id: user.id, name: user.name, email: user.email } };
   }
 }

@@ -3,8 +3,10 @@ import { RegisterUserUseCase } from "application/use-cases/register-user";
 import { Controller } from "core/contracts/controller";
 import { Request, Response } from "express";
 
-export class RegisterUserController implements Controller {
-  constructor(private readonly registerUserUseCase: RegisterUserUseCase) {}
+export class RegisterUserController extends Controller {
+  constructor(private readonly registerUserUseCase: RegisterUserUseCase) {
+    super();
+  }
 
   public async handle(request: Request, response: Response): Promise<Response> {
     const dto = RegisterUserDTO.parse(request);

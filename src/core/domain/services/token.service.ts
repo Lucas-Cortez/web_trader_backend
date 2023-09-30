@@ -1,6 +1,5 @@
+import { DecodedUserToken } from "../entities/token";
 import { UserEntity } from "../entities/user";
-
-type DecodedUserToken = any;
 
 export interface TokenService {
   verify(token: string): boolean;
