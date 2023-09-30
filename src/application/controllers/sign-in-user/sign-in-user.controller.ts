@@ -9,8 +9,6 @@ export class SignInUserController extends Controller {
   }
 
   public async handle(request: Request, response: Response): Promise<Response> {
-    console.log(request.body);
-
     const dto = SignInUserDTO.parse(request);
 
     const data = await this.signInUserUseCase.execute({ ...dto });

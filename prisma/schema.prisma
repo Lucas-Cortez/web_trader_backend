@@ -25,6 +25,7 @@ model Profile {
   interval  String
   symbol    String
   lastOrder DateTime?
+  quantity  Float
   userId    String    @db.ObjectId
 
   user            User              @relation(fields: [userId], references: [id])

@@ -6,15 +6,17 @@ export interface IProfile {
   readonly symbol: string;
   readonly strategiesIds: string[];
   readonly lastOrder?: Date;
+  readonly quantity: number;
 }
 
 export class ProfileEntity implements IProfile {
   private constructor(
-    public id: string,
-    public interval: string,
-    public symbol: string,
-    public strategiesIds: string[],
-    public lastOrder?: Date,
+    public readonly id: string,
+    public readonly interval: string,
+    public readonly symbol: string,
+    public readonly strategiesIds: string[],
+    public readonly quantity: number,
+    public readonly lastOrder?: Date,
   ) {}
 
   public static restore(profile: IProfile) {
@@ -23,11 +25,18 @@ export class ProfileEntity implements IProfile {
       profile.interval,
       profile.symbol,
       profile.strategiesIds,
+      profile.quantity,
       profile.lastOrder,
     );
   }
 
-  public static create(interval: string, symbol: string, strategiesIds: string[], lastOrder?: Date) {
-    return new ProfileEntity(generateObjectId(), interval, symbol, strategiesIds, lastOrder);
+  public static create(
+    interval: string,
+    symbol: string,
+    strategiesIds: string[],
+    quantity: number,
+    lastOrder?: Date,
+  ) {
+    return new ProfileEntity(generateObjectId(), interval, symbol, strategiesIds, quantity, lastOrder);
   }
 }

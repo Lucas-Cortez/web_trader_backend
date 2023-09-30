@@ -6,6 +6,7 @@ const createProfileSchema = z.object({
   interval: z.string(),
   symbol: z.string(),
   userId: z.string(),
+  quantity: z.number().positive(),
   strategiesIds: z.array(z.string().nonempty("must be an id")).nonempty("must contain strategies ids"),
 });
 
@@ -14,6 +15,7 @@ export class CreateProfileDTO extends Dto {
     public readonly interval: string,
     public readonly symbol: string,
     public readonly userId: string,
+    public readonly quantity: number,
     public readonly strategiesIds: string[],
   ) {
     super();
@@ -21,7 +23,8 @@ export class CreateProfileDTO extends Dto {
 
   public static parse(request: Request) {
     const { user } = request;
-    const { interval, symbol, strategiesIds } = request.body;
+    const { interval, symbol, strategiesIds, quantity } = request.body;
+    console.log(request.body);
 
     super.validate({
       createProfile: createProfileSchema.safeParse({
@@ -29,9 +32,10 @@ export class CreateProfileDTO extends Dto {
         symbol,
         userId: user?.id,
         strategiesIds,
+        quantity,
       }),
     });
 
-    return new CreateProfileDTO(interval, symbol, user?.id || "", strategiesIds);
+    return new CreateProfileDTO(interval, symbol, user?.id || "", quantity, strategiesIds);
   }
 }

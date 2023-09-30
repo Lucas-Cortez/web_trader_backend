@@ -11,6 +11,7 @@ export class PrismaProfileRepository implements ProfileRepository {
         interval: profile.interval,
         symbol: profile.symbol,
         userId,
+        quantity: profile.quantity,
         profilestrategy: {
           createMany: { data: [...profile.strategiesIds.map((id) => ({ strategyId: id }))] },
         },
@@ -22,6 +23,7 @@ export class PrismaProfileRepository implements ProfileRepository {
       id: data.id,
       interval: data.interval,
       symbol: data.symbol,
+      quantity: profile.quantity,
       strategiesIds: data.profilestrategy.map((v) => v.strategyId),
     });
   }

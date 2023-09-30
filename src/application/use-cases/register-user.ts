@@ -3,7 +3,7 @@ import { CreateUserInput, CreateUserUseCase } from "./create-user";
 import { TokenService } from "core/domain/services/token.service";
 
 export type RegisterUserInput = CreateUserInput & { passwordConfirmation: string };
-export type RegisterUserOutput = { accessToken: string; email: string };
+export type RegisterUserOutput = { accessToken: string; user: { id: string; email: string; name: string } };
 
 export class RegisterUserUseCase implements IUseCase<RegisterUserInput, RegisterUserOutput> {
   constructor(
@@ -18,6 +18,6 @@ export class RegisterUserUseCase implements IUseCase<RegisterUserInput, Register
 
     const { accessToken } = this.tokenService.sign(user);
 
-    return { accessToken, email: user.email };
+    return { accessToken, user: { id: user.id, name: user.name, email: user.email } };
   }
 }

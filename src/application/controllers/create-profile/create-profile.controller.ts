@@ -11,10 +11,7 @@ export class CreateProfileController extends Controller {
   public async handle(request: Request, response: Response): Promise<Response> {
     const dto = CreateProfileDTO.parse(request);
 
-    console.log(request.user);
-
-    // const data = await this.createProfileUseCase.execute({ ...dto });
-    const data = {};
+    const data = await this.createProfileUseCase.execute({ ...dto });
 
     return response.status(200).json(data);
   }
