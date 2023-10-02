@@ -3,6 +3,7 @@ import { Request } from "express";
 import { z } from "zod";
 
 const createProfileSchema = z.object({
+  name: z.string(),
   interval: z.string(),
   symbol: z.string(),
   userId: z.string(),
@@ -12,6 +13,7 @@ const createProfileSchema = z.object({
 
 export class CreateProfileDTO extends Dto {
   constructor(
+    public readonly name: string,
     public readonly interval: string,
     public readonly symbol: string,
     public readonly userId: string,
@@ -23,11 +25,12 @@ export class CreateProfileDTO extends Dto {
 
   public static parse(request: Request) {
     const { user } = request;
-    const { interval, symbol, strategiesIds, quantity } = request.body;
+    const { interval, symbol, strategiesIds, quantity, name } = request.body;
     console.log(request.body);
 
     super.validate({
       createProfile: createProfileSchema.safeParse({
+        name,
         interval,
         symbol,
         userId: user?.id,
@@ -36,6 +39,6 @@ export class CreateProfileDTO extends Dto {
       }),
     });
 
-    return new CreateProfileDTO(interval, symbol, user?.id || "", quantity, strategiesIds);
+    return new CreateProfileDTO(name, interval, symbol, user?.id || "", quantity, strategiesIds);
   }
 }

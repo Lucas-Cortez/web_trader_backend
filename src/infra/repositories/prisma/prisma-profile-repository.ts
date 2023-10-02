@@ -8,6 +8,7 @@ export class PrismaProfileRepository implements ProfileRepository {
   async createWithStrategies(profile: ProfileEntity, userId: string): Promise<ProfileEntity> {
     const data = await this.prismaClient.profile.create({
       data: {
+        name: profile.name,
         interval: profile.interval,
         symbol: profile.symbol,
         userId,
@@ -21,6 +22,7 @@ export class PrismaProfileRepository implements ProfileRepository {
 
     return ProfileEntity.restore({
       id: data.id,
+      name: data.name,
       interval: data.interval,
       symbol: data.symbol,
       quantity: profile.quantity,
