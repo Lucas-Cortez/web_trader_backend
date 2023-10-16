@@ -1,42 +1,46 @@
 import { BollingerBands } from "technicalindicators";
 import { BollingerBandsOutput } from "technicalindicators/declarations/volatility/BollingerBands";
 
-import { AnalysisStrategy } from "strategies/AnalysisStrategy";
+import { AnalysisStrategy, StrategyInput } from "strategies/AnalysisStrategy";
 import { Errors } from "enums/errors";
+import { number } from "zod";
 
 const PERIOD = 20;
 
-type Input = {
-  values: number[];
-  closingPrice: number;
-};
-
-export class BollingerBandsStrategy implements AnalysisStrategy<Input> {
-  private calculatedData?: BollingerBandsOutput[];
+export class BollingerBandsStrategy implements AnalysisStrategy {
+  // private calculatedData?: BollingerBandsOutput[];
   private closingPrice?: number;
+  private lastBB?: { upper: number; lower: number };
 
-  setAndExecuteAnalysis(input: Input): void {
+  setAndExecuteAnalysis(input: StrategyInput): void {
     this.closingPrice = input.closingPrice;
-    this.calculatedData = BollingerBands.calculate({
+
+    const data = BollingerBands.calculate({
       period: PERIOD,
       values: input.values,
       stdDev: 2,
     });
+
+    const last = data[data.length - 2];
+
+    this.lastBB = { lower: last.lower, upper: last.upper };
   }
 
-  itIsTimeToBuy(): boolean {
-    if (!this.calculatedData || !this.closingPrice)
-      throw new Error(Errors.MISSING_ANALYSIS_DATA, { cause: "[BollingerBandsStrategy]: itIsTimeToBuy" });
+  itsTimeToBuy(): boolean {
+    if (!this.lastBB || !this.closingPrice)
+      throw new Error(Errors.MISSING_ANALYSIS_DATA, { cause: "[BollingerBandsStrategy]: itsTimeToBuy" });
 
-    const decision = this.closingPrice < this.calculatedData[this.calculatedData.length - 2].upper;
+    const decision = this.closingPrice < this.lastBB.upper;
+
     return decision;
   }
 
-  itIsTimeToSell(): boolean {
-    if (!this.calculatedData || !this.closingPrice)
-      throw new Error(Errors.MISSING_ANALYSIS_DATA, { cause: "[BollingerBandsStrategy]: itIsTimeToSell" });
+  itsTimeToSell(): boolean {
+    if (!this.lastBB || !this.closingPrice)
+      throw new Error(Errors.MISSING_ANALYSIS_DATA, { cause: "[BollingerBandsStrategy]: itsTimeToSell" });
 
-    const decision = this.closingPrice > this.calculatedData[this.calculatedData.length - 2].lower;
+    const decision = this.closingPrice > this.lastBB.lower;
+
     return decision;
   }
 }

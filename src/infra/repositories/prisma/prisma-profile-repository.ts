@@ -5,6 +5,24 @@ import { ProfileRepository } from "core/domain/repositories/profile.repository";
 export class PrismaProfileRepository implements ProfileRepository {
   constructor(private readonly prismaClient: PrismaClient) {}
 
+  async getProfilesFromUser(userId: string): Promise<ProfileEntity[]> {
+    const data = await this.prismaClient.profile.findMany({
+      where: { userId },
+      include: { profilestrategy: true },
+    });
+
+    return data.map((v) =>
+      ProfileEntity.restore({
+        id: v.id,
+        name: v.name,
+        interval: v.interval,
+        symbol: v.symbol,
+        quantity: v.quantity,
+        strategiesIds: v.profilestrategy.map((v) => v.strategyId),
+      }),
+    );
+  }
+
   async createWithStrategies(profile: ProfileEntity, userId: string): Promise<ProfileEntity> {
     const data = await this.prismaClient.profile.create({
       data: {
@@ -25,7 +43,7 @@ export class PrismaProfileRepository implements ProfileRepository {
       name: data.name,
       interval: data.interval,
       symbol: data.symbol,
-      quantity: profile.quantity,
+      quantity: data.quantity,
       strategiesIds: data.profilestrategy.map((v) => v.strategyId),
     });
   }

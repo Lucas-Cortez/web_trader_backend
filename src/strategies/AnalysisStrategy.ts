@@ -1,5 +1,7 @@
-export interface AnalysisStrategy<I> {
-  setAndExecuteAnalysis(input: I): void;
-  itIsTimeToBuy(): boolean;
-  itIsTimeToSell(): boolean;
+export type StrategyInput = { values: number[]; closingPrice: number };
+
+export interface AnalysisStrategy {
+  setAndExecuteAnalysis(input: StrategyInput): void;
+  itsTimeToBuy(): boolean;
+  itsTimeToSell(): boolean;
 }
