@@ -22,7 +22,9 @@ export class CreateUserUseCase implements IUseCase<CreateUserInput, CreateUserOu
 
     if (existingUser) throw new AppError({ statusCode: 400, message: "error creating user" });
 
-    const userEntity = UserEntity.create(input.email, input.name, salt, hashedPassword);
+    const { email, name } = input;
+
+    const userEntity = UserEntity.create({ email, name, salt, password: hashedPassword });
 
     const user = await this.userRepository.createUser(userEntity);
 

@@ -8,6 +8,6 @@ export class PrismaStrategyRepository implements StrategyRepository {
   async getStrategies(): Promise<Strategy[]> {
     const data = await this.prismaClient.strategy.findMany();
 
-    return data.map((v) => new Strategy(v.id, v.tag, v.name, v.title, v.description));
+    return data.map((v) => new Strategy({ ...v }));
   }
 }

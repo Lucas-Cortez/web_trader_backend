@@ -1,6 +1,12 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+generator erd {
+  provider                  = "prisma-erd-generator"
+  theme                     = "dark"
+  includeRelationFromFields = true
+}
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -16,18 +22,33 @@ model User {
   name     String
   salt     String
   password String
+  // apiKeyId String? @db.ObjectId
 
   profile Profile[]
+  Orders  Orders[]
+  // ApiKey  ApiKey?   @relation(fields: [apiKeyId], references: [id])
+  ApiKey  ApiKey?
+}
+
+model ApiKey {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  key    String
+  userId String @unique @db.ObjectId
+
+  // User User[]
+  user User @relation(fields: [userId], references: [id])
+  // User User[]
 }
 
 model Profile {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  interval  String
-  symbol    String
-  lastOrder DateTime?
-  quantity  Float
-  userId    String    @db.ObjectId
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  interval   String
+  symbol     String
+  inPosition Boolean
+  lastOrder  DateTime?
+  quantity   Float
+  userId     String    @db.ObjectId
 
   user            User              @relation(fields: [userId], references: [id])
   profilestrategy ProfileStrategy[]
@@ -52,17 +73,17 @@ model Strategy {
   profilestrategy ProfileStrategy[]
 }
 
-// model KandleStick {
-//   id         String   @id @default(auto()) @map("_id") @db.ObjectId
-//   interval   String
-//   symbol     String
-//   openPrice  String
-//   closePrice String
-//   highPrice  String
-//   lowPrice   String
-//   startTime  DateTime
-//   closeTime  DateTime
-// }
+model Orders {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  value       Float
+  trade       String
+  symbol      String
+  profileName String
+  createdAt   DateTime
+  userId      String   @db.ObjectId
+
+  user User @relation(fields: [userId], references: [id])
+}
 
 // model Symbol {
 //   id     String @id @default(auto()) @map("_id") @db.ObjectId
@@ -76,15 +97,4 @@ model Strategy {
 //   interval String
 
 //   SymbolInterval SymbolInterval[]
-// }
-
-// model SymbolInterval {
-//   id         String @id @default(auto()) @map("_id") @db.ObjectId
-//   symbolId   String @db.ObjectId
-//   intervalId String @db.ObjectId
-
-//   symbol   Symbol   @relation(fields: [symbolId], references: [id])
-//   interval Interval @relation(fields: [intervalId], references: [id])
-
-//   @@unique([symbolId, intervalId])
 // }

@@ -1,3 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 
-export const prisma = new PrismaClient({ log: ["query", "info"] });
+export const prisma = new PrismaClient({
+  log: process.env.NODE_ENV === "production" ? ["error"] : ["query", "info", "error", "warn"],
+});

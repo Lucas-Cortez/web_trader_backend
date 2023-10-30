@@ -21,13 +21,7 @@ export class CreateProfileUseCase implements IUseCase<CreateProfileInput, Create
 
     if (profiles.length >= 3) throw new AppError({ statusCode: 406, message: "3 profiles allowed" });
 
-    const profileEntity = ProfileEntity.create(
-      input.name,
-      input.interval,
-      input.symbol,
-      input.strategiesIds,
-      input.quantity,
-    );
+    const profileEntity = ProfileEntity.create({ ...input });
 
     const profile = await this.profileRepository.createWithStrategies(profileEntity, input.userId);
 

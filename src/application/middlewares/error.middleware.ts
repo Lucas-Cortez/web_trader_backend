@@ -10,5 +10,7 @@ export const errorMiddleware = (
   const statusCode = error.statusCode || 500;
   const message = error.message || "internal server error";
 
+  console.log(error);
+
   return response.status(statusCode).json({ statusCode, message });
 };

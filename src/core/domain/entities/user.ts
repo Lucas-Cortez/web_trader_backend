@@ -4,24 +4,33 @@ export interface IUser {
   id: string;
   email: string;
   name: string;
+  // hasKey: boolean;
   salt: string;
   password: string;
 }
 
 export class UserEntity implements IUser {
-  private constructor(
-    public id: string,
-    public email: string,
-    public name: string,
-    public salt: string,
-    public password: string,
-  ) {}
+  public readonly id: string;
+  public readonly email: string;
+  public readonly name: string;
+  public readonly salt: string;
+  public readonly password: string;
+  // public readonly hasKey: boolean;
 
-  public static restore(user: IUser) {
-    return new UserEntity(user.id, user.email, user.name, user.salt, user.password);
+  private constructor(user: IUser) {
+    this.id = user.id;
+    this.email = user.email;
+    this.name = user.name;
+    this.salt = user.salt;
+    this.password = user.password;
+    // this.hasKey = user.hasKey;
   }
 
-  public static create(email: string, name: string, salt: string, password: string) {
-    return new UserEntity(generateObjectId(), email, name, salt, password);
+  public static restore(user: IUser) {
+    return new UserEntity(user);
+  }
+
+  public static create(user: Omit<IUser, "id">) {
+    return new UserEntity({ id: generateObjectId(), ...user });
   }
 }

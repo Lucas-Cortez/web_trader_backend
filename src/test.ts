@@ -1,13 +1,11 @@
 import { prisma } from "infra/config/prisma";
-import { z } from "zod";
 
 async function exec() {
-  const data = await prisma.profile.findMany({
-    where: { userId: "65074a4f1e6ec4011eaf8b03" },
-    include: { profilestrategy: { include: { strategy: true } } },
-  });
+  const id = "653e9dc3657df310595b5bed";
+  const userId = "653d296a1ea14483e357cd1a";
+  const key = "chaveee";
 
-  console.log(JSON.stringify(data, null, 2));
+  await prisma.apiKey.create({ data: { key, userId } });
 }
 
 exec();

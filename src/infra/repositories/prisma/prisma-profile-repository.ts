@@ -11,14 +11,11 @@ export class PrismaProfileRepository implements ProfileRepository {
       include: { profilestrategy: true },
     });
 
-    return data.map((v) =>
+    return data.map(({ profilestrategy, lastOrder, ...rest }) =>
       ProfileEntity.restore({
-        id: v.id,
-        name: v.name,
-        interval: v.interval,
-        symbol: v.symbol,
-        quantity: v.quantity,
-        strategiesIds: v.profilestrategy.map((v) => v.strategyId),
+        ...rest,
+        lastOrder: lastOrder || undefined,
+        strategiesIds: profilestrategy.map((v) => v.strategyId),
       }),
     );
   }
@@ -26,10 +23,11 @@ export class PrismaProfileRepository implements ProfileRepository {
   async createWithStrategies(profile: ProfileEntity, userId: string): Promise<ProfileEntity> {
     const data = await this.prismaClient.profile.create({
       data: {
+        userId,
         name: profile.name,
         interval: profile.interval,
         symbol: profile.symbol,
-        userId,
+        inPosition: profile.inPosition,
         quantity: profile.quantity,
         profilestrategy: {
           createMany: { data: [...profile.strategiesIds.map((id) => ({ strategyId: id }))] },
@@ -38,13 +36,21 @@ export class PrismaProfileRepository implements ProfileRepository {
       include: { profilestrategy: true },
     });
 
+    const { profilestrategy, lastOrder, ...rest } = data;
+
     return ProfileEntity.restore({
-      id: data.id,
-      name: data.name,
-      interval: data.interval,
-      symbol: data.symbol,
-      quantity: data.quantity,
-      strategiesIds: data.profilestrategy.map((v) => v.strategyId),
+      ...rest,
+      lastOrder: lastOrder || undefined,
+      strategiesIds: profilestrategy.map((v) => v.strategyId),
     });
+  }
+
+  async deleteById(id: string, userId: string): Promise<string> {
+    await this.prismaClient.$transaction([
+      this.prismaClient.profileStrategy.deleteMany({ where: { profile: { id, userId } } }),
+      this.prismaClient.profile.delete({ where: { id, userId } }),
+    ]);
+
+    return "deleted";
   }
 }
