@@ -21,6 +21,7 @@ export class PrismaUserRepository implements UserRepository {
         name: user.name,
         password: user.password,
         salt: user.salt,
+        stockUser: { create: { enable: false, stopLoss: 0, stopWin: 0 } },
       },
     });
   }
