@@ -29,6 +29,8 @@ export class PrismaProfileRepository implements ProfileRepository {
         symbol: profile.symbol,
         inPosition: profile.inPosition,
         quantity: profile.quantity,
+        stopEnable: profile.stopEnable,
+        stopLoss: profile.stopLoss,
         profilestrategy: {
           createMany: { data: [...profile.strategiesIds.map((id) => ({ strategyId: id }))] },
         },

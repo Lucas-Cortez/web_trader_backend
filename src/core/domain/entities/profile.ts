@@ -1,3 +1,4 @@
+import { Profile } from "@prisma/client";
 import { generateObjectId } from "utils/helpers/generateObjectId";
 
 export interface IProfile {
@@ -9,6 +10,8 @@ export interface IProfile {
   readonly strategiesIds: string[];
   readonly lastOrder?: Date;
   readonly quantity: number;
+  readonly stopLoss: number;
+  readonly stopEnable: boolean;
 }
 
 export class ProfileEntity implements IProfile {
@@ -20,6 +23,8 @@ export class ProfileEntity implements IProfile {
   public readonly strategiesIds: string[];
   public readonly quantity: number;
   public readonly lastOrder?: Date;
+  public readonly stopLoss: number;
+  public stopEnable: boolean;
 
   private constructor(profile: IProfile) {
     this.id = profile.id;
@@ -30,6 +35,8 @@ export class ProfileEntity implements IProfile {
     this.strategiesIds = profile.strategiesIds;
     this.quantity = profile.quantity;
     this.lastOrder = profile.lastOrder;
+    this.stopLoss = profile.stopLoss;
+    this.stopEnable = profile.stopEnable;
   }
 
   public static restore(profile: IProfile) {

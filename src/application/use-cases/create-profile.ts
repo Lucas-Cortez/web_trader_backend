@@ -10,6 +10,8 @@ type CreateProfileInput = {
   quantity: number;
   strategiesIds: string[];
   userId: string;
+  stopLoss: number;
+  stopEnable: boolean;
 };
 type CreateProfileOutput = ProfileEntity;
 
