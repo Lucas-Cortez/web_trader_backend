@@ -4,12 +4,14 @@ import { z } from "zod";
 
 const createApiKeySchema = z.object({
   key: z.string(),
+  secret: z.string(),
   userId: z.string(),
 });
 
 export class CreateApiKeyDto extends Dto {
   constructor(
     public readonly key: string,
+    public readonly secret: string,
     public readonly userId: string,
   ) {
     super();
@@ -17,15 +19,16 @@ export class CreateApiKeyDto extends Dto {
 
   public static parse(request: Request) {
     const { user } = request;
-    const { key } = request.body;
+    const { key, secret } = request.body;
 
     super.validate({
       createApiKey: createApiKeySchema.safeParse({
         key,
+        secret,
         userId: user?.id,
       }),
     });
 
-    return new CreateApiKeyDto(key, user?.id || "");
+    return new CreateApiKeyDto(key, secret, user?.id || "");
   }
 }

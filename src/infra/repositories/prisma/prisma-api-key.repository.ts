@@ -9,11 +9,11 @@ export class PrismaApiKeyRepository implements ApiKeyRepository {
     return data && data.key;
   }
 
-  async create(key: string, userId: string): Promise<string> {
+  async create(api: { key: string; secret: string }, userId: string): Promise<string> {
     await this.prismaClient.$transaction(async (prisma) => {
       const lastKey = await prisma.apiKey.findFirst({ where: { userId } });
       if (lastKey) await prisma.apiKey.delete({ where: { userId } });
-      await prisma.apiKey.create({ data: { key, userId } });
+      await prisma.apiKey.create({ data: { key: api.key, secret: api.secret, userId } });
     });
     return "created";
   }

@@ -10,6 +10,7 @@ export class CreateApiKeyController extends Controller {
 
   public async handle(request: Request, response: Response): Promise<Response> {
     const dto = CreateApiKeyDto.parse(request);
+    console.log(request.body);
 
     const data = await this.createApiKeyUseCase.execute({ ...dto });
 

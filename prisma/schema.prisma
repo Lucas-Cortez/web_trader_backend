@@ -23,41 +23,33 @@ model User {
   salt     String
   password String
 
-  profile   Profile[]
-  orders    Orders[]
-  apiKey    ApiKey?
-  stockUser StockUser?
-}
-
-model StockUser {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  stopLoss Float   @default(0)
-  stopWin  Float   @default(0)
-  enable   Boolean
-  userId   String  @unique @db.ObjectId
-
-  user User @relation(fields: [userId], references: [id])
+  profile Profile[]
+  orders  Orders[]
+  apiKey  ApiKey?
 }
 
 model ApiKey {
   id     String @id @default(auto()) @map("_id") @db.ObjectId
   key    String
+  secret String
   userId String @unique @db.ObjectId
 
   user User @relation(fields: [userId], references: [id])
 }
 
 model Profile {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  name       String
-  interval   String
-  symbol     String
-  inPosition Boolean
-  lastOrder  DateTime?
-  quantity   Float
-  stopLoss   Float
-  stopEnable Boolean
-  userId     String    @db.ObjectId
+  id                    String    @id @default(auto()) @map("_id") @db.ObjectId
+  name                  String
+  interval              String
+  symbol                String
+  inPosition            Boolean
+  lastOrderTime         DateTime?
+  lastOrderClosingPrice Float?
+  quantity              Float
+  stopLoss              Float
+  stopEnable            Boolean
+  version               Int
+  userId                String    @db.ObjectId
 
   user            User              @relation(fields: [userId], references: [id])
   profilestrategy ProfileStrategy[]
@@ -93,17 +85,3 @@ model Orders {
 
   user User @relation(fields: [userId], references: [id])
 }
-
-// model Symbol {
-//   id     String @id @default(auto()) @map("_id") @db.ObjectId
-//   symbol String
-
-//   SymbolInterval SymbolInterval[]
-// }
-
-// model Interval {
-//   id       String @id @default(auto()) @map("_id") @db.ObjectId
-//   interval String
-
-//   SymbolInterval SymbolInterval[]
-// }

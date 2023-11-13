@@ -1,4 +1,3 @@
-import { GetAllStrategiesUseCase } from "application/use-cases/get-all-strategies";
 import { GetProfilesUseCase } from "application/use-cases/get-profiles";
 import { Controller } from "core/contracts/controller";
 import { Request, Response } from "express";

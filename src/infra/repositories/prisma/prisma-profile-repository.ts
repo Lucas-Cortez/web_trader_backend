@@ -11,10 +11,11 @@ export class PrismaProfileRepository implements ProfileRepository {
       include: { profilestrategy: true },
     });
 
-    return data.map(({ profilestrategy, lastOrder, ...rest }) =>
+    return data.map(({ profilestrategy, lastOrderTime, lastOrderClosingPrice, ...rest }) =>
       ProfileEntity.restore({
         ...rest,
-        lastOrder: lastOrder || undefined,
+        lastOrderTime: lastOrderTime || undefined,
+        lastOrderClosingPrice: lastOrderClosingPrice || undefined,
         strategiesIds: profilestrategy.map((v) => v.strategyId),
       }),
     );
@@ -31,6 +32,7 @@ export class PrismaProfileRepository implements ProfileRepository {
         quantity: profile.quantity,
         stopEnable: profile.stopEnable,
         stopLoss: profile.stopLoss,
+        version: profile.version,
         profilestrategy: {
           createMany: { data: [...profile.strategiesIds.map((id) => ({ strategyId: id }))] },
         },
@@ -38,11 +40,12 @@ export class PrismaProfileRepository implements ProfileRepository {
       include: { profilestrategy: true },
     });
 
-    const { profilestrategy, lastOrder, ...rest } = data;
+    const { profilestrategy, lastOrderTime, lastOrderClosingPrice, ...rest } = data;
 
     return ProfileEntity.restore({
       ...rest,
-      lastOrder: lastOrder || undefined,
+      lastOrderTime: lastOrderTime || undefined,
+      lastOrderClosingPrice: lastOrderClosingPrice || undefined,
       strategiesIds: profilestrategy.map((v) => v.strategyId),
     });
   }
@@ -54,5 +57,34 @@ export class PrismaProfileRepository implements ProfileRepository {
     ]);
 
     return "deleted";
+  }
+
+  async getProfileVersion(profileId: string, userId: string): Promise<{ version: number } | null> {
+    const data = await this.prismaClient.profile.findUnique({
+      where: { userId, id: profileId },
+      select: { version: true },
+    });
+
+    return data;
+  }
+
+  async getProfileById(profileId: string, userId: string): Promise<ProfileEntity | null> {
+    const data = await this.prismaClient.profile.findUnique({
+      where: { userId, id: profileId },
+      include: { profilestrategy: true },
+    });
+
+    if (!data) return null;
+
+    const { profilestrategy, lastOrderTime, lastOrderClosingPrice, ...rest } = data;
+
+    const profile = ProfileEntity.restore({
+      ...rest,
+      lastOrderTime: lastOrderTime || undefined,
+      lastOrderClosingPrice: lastOrderClosingPrice || undefined,
+      strategiesIds: profilestrategy.map((v) => v.strategyId) || [],
+    });
+
+    return profile;
   }
 }
