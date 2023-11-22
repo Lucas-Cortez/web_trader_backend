@@ -18,7 +18,6 @@ export class DeleteProfileDTO extends Dto {
   public static parse(request: Request) {
     const { user } = request;
     const { profileId } = request.params;
-    console.log(request.body);
 
     const zod = deleteProfileSchema.safeParse({
       userId: user?.id,

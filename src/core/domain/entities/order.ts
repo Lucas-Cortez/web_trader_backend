@@ -5,6 +5,7 @@ export interface IOrder {
   readonly value: number;
   readonly trade: string;
   readonly symbol: string;
+  readonly profileId: string;
   readonly profileName: string;
   readonly createdAt: Date;
 }
@@ -16,6 +17,7 @@ export class Order implements IOrder {
   public readonly symbol: string;
   public readonly profileName: string;
   public readonly createdAt: Date;
+  public readonly profileId: string;
 
   constructor(order: IOrder) {
     this.id = order.id;
@@ -23,6 +25,7 @@ export class Order implements IOrder {
     this.trade = order.trade;
     this.symbol = order.symbol;
     this.profileName = order.profileName;
+    this.profileId = order.profileId;
     this.createdAt = order.createdAt;
   }
 

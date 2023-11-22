@@ -1,11 +1,9 @@
-import { Consumer } from "./contracts/consumer";
-import { QueueFactoryBase } from "./contracts/factory";
-import { Queue } from "./contracts/queue";
-import { QueueOptions } from "./contracts/queue-options";
-import { PQueueQueueFactory } from "./implementation/p-queue/p-queue-queue-factory";
-// import { BullQueueFactory } from "./implementation/bull/bullQueueFactory";
+import { QueueConsumer } from "core/contracts/queue-consumer";
+import { Queue } from "core/contracts/queue";
+import { QueueFactoryBase } from "core/contracts/queue-factory";
+import { QueueOptions } from "core/contracts/queue-options";
 
-export class QueueOrchestrator<T extends Record<string, any>> {
+export class QueueService<T extends Record<string, any> = Record<string, any>> {
   private queueFactory: QueueFactoryBase;
   private processes: Map<keyof T, Queue> = new Map();
 
@@ -21,7 +19,7 @@ export class QueueOrchestrator<T extends Record<string, any>> {
     queue.add(data);
   }
 
-  public subscribeConsumer(key: keyof T, consumer: Consumer, options?: QueueOptions) {
+  public subscribeConsumer(key: keyof T, consumer: QueueConsumer, options?: QueueOptions) {
     const queue = this.queueFactory.createInstance(key.toString(), consumer, options);
 
     this.processes.set(key, queue);
@@ -39,5 +37,5 @@ type Queues = {
   order: { price: number };
 };
 
-export const queueOrchestrator = new QueueOrchestrator<Queues>(new PQueueQueueFactory());
+// export const queueService = new QueueService<Queues>(new PQueueQueueFactory());
 // export const queueOrchestrator = new QueueOrchestrator(new BullQueueFactory());

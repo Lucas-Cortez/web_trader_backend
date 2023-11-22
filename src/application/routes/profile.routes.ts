@@ -12,9 +12,6 @@ profileRoutes.get("/", authMiddleware.inject(), getProfilesController.inject());
 profileRoutes.delete("/:profileId", authMiddleware.inject(), deleteProfileController.inject());
 profileRoutes.get(
   "/version/:profileId/:version",
-  // (req, res) => {
-  //   console.log(req.params);
-  // },
   authMiddleware.inject(),
   getVersionProfileSummaryController.inject(),
 );

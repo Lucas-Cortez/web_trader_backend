@@ -2,48 +2,48 @@ import { prisma } from "infra/config/prisma";
 import * as crypto from "crypto";
 import { BollingerBands } from "technicalindicators";
 
-// const algorithm = "aes-256-cbc";
-// const secretKey = generateRandomKey(); // Mantenha isso seguro!
+const algorithm = "aes-256-cbc";
+const secretKey = generateRandomKey(); // Mantenha isso seguro!
 // const iv = crypto.randomBytes(16);
 
-// function generateRandomKey(): string {
-//   return crypto.randomBytes(32).toString("hex");
-// }
+function generateRandomKey(): string {
+  return crypto.randomBytes(32).toString("hex");
+}
 
-// // Função para criptografar uma chave de API
-// function encrypt(apiKey: string, secretKey: string): string {
-//   if (secretKey.length !== 64) {
-//     throw new Error("A chave secreta deve ter 64 caracteres hexadecimais (32 bytes).");
-//   }
+// Função para criptografar uma chave de API
+function encrypt(apiKey: string, secretKey: string): string {
+  if (secretKey.length !== 64) {
+    throw new Error("A chave secreta deve ter 64 caracteres hexadecimais (32 bytes).");
+  }
 
-//   const iv = crypto.randomBytes(16);
-//   const cipher = crypto.createCipheriv(algorithm, Buffer.from(secretKey, "hex"), iv);
-//   const encrypted = Buffer.concat([cipher.update(apiKey, "utf8"), cipher.final()]);
-//   return `${iv.toString("hex")}:${encrypted.toString("hex")}`;
-// }
+  const iv = crypto.randomBytes(16);
+  const cipher = crypto.createCipheriv(algorithm, Buffer.from(secretKey, "hex"), iv);
+  const encrypted = Buffer.concat([cipher.update(apiKey, "utf8"), cipher.final()]);
+  return `${iv.toString("hex")}:${encrypted.toString("hex")}`;
+}
 
-// // Função para descriptografar uma chave de API
-// function decrypt(encryptedApiKey: string, secretKey: string): string {
-//   if (secretKey.length !== 64) {
-//     throw new Error("A chave secreta deve ter 64 caracteres hexadecimais (32 bytes).");
-//   }
+// Função para descriptografar uma chave de API
+function decrypt(encryptedApiKey: string, secretKey: string): string {
+  if (secretKey.length !== 64) {
+    throw new Error("A chave secreta deve ter 64 caracteres hexadecimais (32 bytes).");
+  }
 
-//   const [ivString, encryptedString] = encryptedApiKey.split(":");
-//   const decipher = crypto.createDecipheriv(
-//     algorithm,
-//     Buffer.from(secretKey, "hex"),
-//     Buffer.from(ivString, "hex"),
-//   );
-//   const decrypted = Buffer.concat([decipher.update(Buffer.from(encryptedString, "hex")), decipher.final()]);
-//   return decrypted.toString();
-// }
+  const [ivString, encryptedString] = encryptedApiKey.split(":");
+  const decipher = crypto.createDecipheriv(
+    algorithm,
+    Buffer.from(secretKey, "hex"),
+    Buffer.from(ivString, "hex"),
+  );
+  const decrypted = Buffer.concat([decipher.update(Buffer.from(encryptedString, "hex")), decipher.final()]);
+  return decrypted.toString();
+}
 
 async function exec() {
-  const id = "65518274c27e656c83aea14d";
-  const userId = "653d296a1ea14483e357cd1a";
+  // const id = "65518274c27e656c83aea14d";
+  // const userId = "653d296a1ea14483e357cd1a";
 
-  const data = await prisma.profile.findUnique({ where: { userId, id }, select: { version: true } });
-  console.log(data);
+  // const data = await prisma.user.findMany();
+  // console.log(data);
 
   // const key = "chaveee";
 
@@ -69,18 +69,18 @@ async function exec() {
   // ====================================================================
 
   // Exemplo de uso
-  // console.log("Chave aleatória de 32 bytes:", secretKey);
+  console.log("Chave aleatória de 32 bytes:", secretKey);
 
-  // const apiKeyOriginal = "minhachavedeapisupersecreta";
+  const apiKeyOriginal = "minhachavedeapisupersecreta";
 
-  // // Criptografar a chave de API antes de armazenar no banco de dados
-  // const apiKeyCriptografada = encrypt(apiKeyOriginal, secretKey);
-  // console.log("Chave de API original:", apiKeyOriginal);
-  // console.log("Chave de API criptografada:", apiKeyCriptografada);
+  // Criptografar a chave de API antes de armazenar no banco de dados
+  const apiKeyCriptografada = encrypt(apiKeyOriginal, secretKey);
+  console.log("Chave de API original:", apiKeyOriginal);
+  console.log("Chave de API criptografada:", apiKeyCriptografada);
 
-  // // Descriptografar a chave de API quando precisar usá-la
-  // const apiKeyDescriptografada = decrypt(apiKeyCriptografada, secretKey);
-  // console.log("Chave de API descriptografada:", apiKeyDescriptografada);
+  // Descriptografar a chave de API quando precisar usá-la
+  const apiKeyDescriptografada = decrypt(apiKeyCriptografada, secretKey);
+  console.log("Chave de API descriptografada:", apiKeyDescriptografada);
 }
 
 exec();
