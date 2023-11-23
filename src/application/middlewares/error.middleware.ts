@@ -7,10 +7,12 @@ export const errorMiddleware = (
   response: Response,
   next: NextFunction,
 ) => {
-  const statusCode = error.statusCode || 500;
-  const message = error.message || "internal server error";
-
   console.log(error);
+
+  if (!(error instanceof AppError))
+    return response.status(500).json({ statusCode: 500, message: "internal server error" });
+
+  const { statusCode, message } = error;
 
   return response.status(statusCode).json({ statusCode, message });
 };

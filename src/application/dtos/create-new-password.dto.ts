@@ -1,10 +1,11 @@
 import { Dto } from "core/contracts/dto";
 import { Request } from "express";
+import { passwordSchema } from "utils/schemas";
 import { z } from "zod";
 
 const createNewPasswordSchema = z.object({
-  key: z.string(),
-  secret: z.string(),
+  oldPassword: passwordSchema,
+  newPassword: passwordSchema,
   userId: z.string(),
 });
 
