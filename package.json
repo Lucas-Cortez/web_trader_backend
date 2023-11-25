@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsup && prisma generate",
     "dev": "tsx watch ./src/server.ts",
     "start": "",
     "format": "prettier --write \"src/**/*.ts\"",
