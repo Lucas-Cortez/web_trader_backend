@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "",
+    "build": "tsup",
     "dev": "tsx watch ./src/server.ts",
     "start": "",
-    "format": "prettier --write \"src/**/*.ts\""
+    "format": "prettier --write \"src/**/*.ts\"",
+    "vercel-build": "tsup && prisma generate"
   },
   "keywords": [],
   "author": "",
