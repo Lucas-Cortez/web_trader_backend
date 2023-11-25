@@ -4,9 +4,10 @@ import { ApiKeyRepository } from "core/domain/repositories/api-key.repository";
 export class PrismaApiKeyRepository implements ApiKeyRepository {
   constructor(private readonly prismaClient: PrismaClient) {}
 
-  async getUserKey(userId: string): Promise<string | null> {
+  async getUserKey(userId: string): Promise<{ key: string; secret: string } | null> {
     const data = await this.prismaClient.apiKey.findFirst({ where: { userId } });
-    return data && data.key;
+    if (!data) return null;
+    return { key: data.key, secret: data.secret };
   }
 
   async create(api: { key: string; secret: string }, userId: string): Promise<string> {

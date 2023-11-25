@@ -87,4 +87,23 @@ export class PrismaProfileRepository implements ProfileRepository {
 
     return profile;
   }
+
+  async updateProfile(profile: Partial<ProfileEntity>, userId: string): Promise<ProfileEntity> {
+    const data = await this.prismaClient.profile.update({
+      where: { id: profile.id, userId },
+      data: { ...profile },
+      include: { profilestrategy: true },
+    });
+
+    const { profilestrategy, lastOrderTime, lastOrderClosingPrice, ...rest } = data;
+
+    const restoredProfile = ProfileEntity.restore({
+      ...rest,
+      lastOrderTime: lastOrderTime || undefined,
+      lastOrderClosingPrice: lastOrderClosingPrice || undefined,
+      strategiesIds: profilestrategy.map((v) => v.strategyId) || [],
+    });
+
+    return restoredProfile;
+  }
 }

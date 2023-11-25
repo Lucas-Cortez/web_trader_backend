@@ -19,13 +19,13 @@ export class QueueService<T extends Record<string, any> = Record<string, any>> {
     queue.add(data);
   }
 
-  public subscribeConsumer(key: keyof T, consumer: QueueConsumer, options?: QueueOptions) {
+  protected subscribeConsumer(key: keyof T, consumer: QueueConsumer, options?: QueueOptions) {
     const queue = this.queueFactory.createInstance(key.toString(), consumer, options);
 
     this.processes.set(key, queue);
   }
 
-  public initializeProcesses() {
+  protected initializeProcesses() {
     console.log("[QUEUE]: initialized");
 
     Array.from(this.processes.values()).forEach((process) => process.run());

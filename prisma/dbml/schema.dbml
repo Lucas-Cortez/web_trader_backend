@@ -52,7 +52,7 @@ Table Orders {
   trade String [not null]
   symbol String [not null]
   profileName String [not null]
-  createdAt DateTime [not null]
+  createdAt DateTime [default: `now()`, not null]
   profileId String [not null]
   userId String [not null]
 }

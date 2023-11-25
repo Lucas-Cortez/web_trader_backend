@@ -13,6 +13,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@binance/connector": "^3.0.0",
+    "@binance/connector-typescript": "^0.3.4",
     "@prisma/client": "^5.5.2",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.1",

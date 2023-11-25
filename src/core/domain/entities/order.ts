@@ -1,9 +1,10 @@
+import { Trade } from "application/enums/trade";
 import { generateObjectId } from "utils/helpers/generateObjectId";
 
 export interface IOrder {
   readonly id: string;
   readonly value: number;
-  readonly trade: string;
+  readonly trade: Trade;
   readonly symbol: string;
   readonly profileId: string;
   readonly profileName: string;
@@ -13,7 +14,7 @@ export interface IOrder {
 export class Order implements IOrder {
   public readonly id: string;
   public readonly value: number;
-  public readonly trade: string;
+  public readonly trade: Trade;
   public readonly symbol: string;
   public readonly profileName: string;
   public readonly createdAt: Date;
@@ -33,7 +34,7 @@ export class Order implements IOrder {
     return new Order({ ...order });
   }
 
-  public static create(order: Omit<IOrder, "id">) {
-    return new Order({ id: generateObjectId(), ...order });
+  public static create(order: Omit<IOrder, "id" | "createdAt">) {
+    return new Order({ id: generateObjectId(), createdAt: new Date(), ...order });
   }
 }

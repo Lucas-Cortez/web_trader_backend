@@ -1,11 +1,11 @@
-import { Consumer } from "queue/contracts/consumer";
+import { QueueConsumer } from "core/contracts/queue-consumer";
 import { delay } from "utils/helpers/delay";
 
 type EmailConsumerInput = {
   name: string;
 };
 
-export class EmailConsumer implements Consumer<EmailConsumerInput> {
+export class EmailConsumer implements QueueConsumer<EmailConsumerInput> {
   public async handle(input: EmailConsumerInput): Promise<void> {
     // await delay(4000);
     const min = 1000;

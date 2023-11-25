@@ -5,6 +5,12 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@binance/connector':
+    specifier: ^3.0.0
+    version: 3.0.0
+  '@binance/connector-typescript':
+    specifier: ^0.3.4
+    version: 0.3.4
   '@prisma/client':
     specifier: ^5.5.2
     version: 5.5.2(prisma@5.5.2)
@@ -127,6 +133,29 @@ packages:
       chalk: 2.4.2
       js-tokens: 4.0.0
     dev: true
+
+  /@binance/connector-typescript@0.3.4:
+    resolution: {integrity: sha512-hl02xqDhbrlvOWiq61IfNqzYNX4Vomr4o7ANGD/elxorBfC6BrMRqYT4BeNOK+IXS0SVxRdNI2xHZiwtsL5Qsg==}
+    dependencies:
+      axios: 1.6.2
+      ws: 8.13.0
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - utf-8-validate
+    dev: false
+
+  /@binance/connector@3.0.0:
+    resolution: {integrity: sha512-bAwfYJ2c/6PM3oIooV/9X9m+/V9atA/ooIauKGqQTjMRhneQ4C6UgqaxmEVyOF8c9aktov3dqWhLEoyXhuwqGw==}
+    engines: {node: '>=12.22.3', npm: '>=6.14.13'}
+    dependencies:
+      axios: 1.4.0
+      ws: 8.13.0
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - utf-8-validate
+    dev: false
 
   /@esbuild-kit/cjs-loader@2.4.2:
     resolution: {integrity: sha512-BDXFbYOJzT/NBEtp71cvsrGPwGAMGRB/349rwKuoxNSiKjPraNNnlK6MIIabViCjqZugu6j+xeMDlEkWdHHJSg==}
@@ -1240,6 +1269,16 @@ packages:
 
   /axios@1.4.0:
     resolution: {integrity: sha512-S4XCWMEmzvo64T9GfvQDOXgYRDJ/wsSZc7Jvdgx5u1sd0JwsuPLqb3SYmusag+edF6ziyMensPVqLTSc1PiSEA==}
+    dependencies:
+      follow-redirects: 1.15.2
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /axios@1.6.2:
+    resolution: {integrity: sha512-7i24Ri4pmDRfJTR7LDBhsOTtcm+9kjX5WiY1X3wIisx6G9So3pfMkEiU7emUBe46oceVImccTEM3k6C5dbVW8A==}
     dependencies:
       follow-redirects: 1.15.2
       form-data: 4.0.0

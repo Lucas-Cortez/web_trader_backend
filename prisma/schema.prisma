@@ -85,7 +85,7 @@ model Orders {
   trade       String
   symbol      String
   profileName String
-  createdAt   DateTime
+  createdAt   DateTime @default(now())
   profileId   String   @db.ObjectId
   userId      String   @db.ObjectId
 
