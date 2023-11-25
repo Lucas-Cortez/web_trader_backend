@@ -2,12 +2,14 @@
   "name": "web_trader",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/server.js",
+  "type": "module",
   "scripts": {
     "dev": "tsx watch ./src/server.ts",
-    "start": "",
+    "start": "node dist/server.mjs",
     "format": "prettier --write \"src/**/*.ts\"",
-    "vercel-build": "tsup && prisma generate"
+    "vercel-build": "tsup && prisma generate",
+    "build:env": "tsup && prisma generate"
   },
   "keywords": [],
   "author": "",
