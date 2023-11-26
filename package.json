@@ -11,6 +11,9 @@
     "vercel-build": "tsup && prisma generate",
     "build:env": "tsup && prisma generate"
   },
+  "engines": {
+    "node": ">=18.18.0 <19.0.0"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
