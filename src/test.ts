@@ -10,34 +10,29 @@ async function exec() {
   // console.log(data);
   // const key = "chaveee";
   // await prisma.apiKey.create({ data: { key, userId } });
-
-  const opa: string[] = [];
-
-  const symbols = info.symbols.forEach((symbol) => {
-    opa.push(symbol.symbol);
-    // const sym = symbol.symbol as string;
-    // // if (sym.includes("BRL")) opa.push(sym);
-  });
-
-  const sorted = opa.sort();
-
-  console.log(sorted);
-
-  escreverArrayEmArquivo("coins.json", sorted);
+  // const opa: string[] = [];
+  // const symbols = info.symbols.forEach((symbol) => {
+  //   opa.push(symbol.symbol);
+  //   // const sym = symbol.symbol as string;
+  //   // // if (sym.includes("BRL")) opa.push(sym);
+  // });
+  // const sorted = opa.sort();
+  // console.log(sorted);
+  // escreverArrayEmArquivo("coins.json", sorted);
 }
 
-function escreverArrayEmArquivo(nomeArquivo: string, array: any[]) {
-  // Converta o array para uma string formatada
-  // const conteudo = array.join("\n");
+// function escreverArrayEmArquivo(nomeArquivo: string, array: any[]) {
+//   // Converta o array para uma string formatada
+//   // const conteudo = array.join("\n");
 
-  // Escreva a string no arquivo
-  fs.writeFile(nomeArquivo, JSON.stringify(array), "utf8", (err) => {
-    if (err) {
-      console.error("Erro ao escrever no arquivo:", err);
-    } else {
-      console.log(`Conteúdo do array foi escrito no arquivo ${nomeArquivo} com sucesso.`);
-    }
-  });
-}
+//   // Escreva a string no arquivo
+//   fs.writeFile(nomeArquivo, JSON.stringify(array), "utf8", (err) => {
+//     if (err) {
+//       console.error("Erro ao escrever no arquivo:", err);
+//     } else {
+//       console.log(`Conteúdo do array foi escrito no arquivo ${nomeArquivo} com sucesso.`);
+//     }
+//   });
+// }
 
 exec();
