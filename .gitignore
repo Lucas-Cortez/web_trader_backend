@@ -1,5 +1,5 @@
 node_modules
 .env
 dist
-./exchangeInfo.json
-./coins.json
+exchangeInfo.json
+coins.json

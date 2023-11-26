@@ -8,7 +8,7 @@
     "dev": "tsx watch ./src/server.ts",
     "start": "node dist/server.js",
     "format": "prettier --write \"src/**/*.ts\"",
-    "build:prod": "prisma db push && tsup && npm install --production",
+    "build:prod": "prisma db push && tsup && npm install --production && ls node_modules",
     "build": "tsup"
   },
   "engines": {
