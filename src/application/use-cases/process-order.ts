@@ -16,10 +16,10 @@ type ProcessOrderOutput = void;
 export class ProcessOrderUseCase implements IUseCase<ProcessOrderInput, ProcessOrderOutput> {
   constructor(
     private readonly apiKeyRepository: ApiKeyRepository,
-    private readonly encryptionService: EncryptionService,
-    private readonly brokerService: BrokerService,
     private readonly profileRepository: ProfileRepository,
     private readonly orderRepository: OrderRepository,
+    private readonly encryptionService: EncryptionService,
+    private readonly brokerService: BrokerService,
   ) {}
 
   async execute(input: ProcessOrderInput): Promise<ProcessOrderOutput> {

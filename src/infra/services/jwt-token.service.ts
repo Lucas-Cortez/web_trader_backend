@@ -21,7 +21,7 @@ export class JwtTokenService implements TokenService {
 
   sign(user: UserEntity): { accessToken: string } {
     const token = jwt.sign({ id: user.id, email: user.email }, this.secretKey, {
-      expiresIn: "60m",
+      expiresIn: "1d",
       subject: user.id,
     });
 

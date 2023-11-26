@@ -5,8 +5,6 @@ import { z } from "zod";
 
 const createOrderSchema = z.object({
   tradeType: z.nativeEnum(Trade),
-  quantity: z.coerce.number(),
-  symbol: z.string(),
   userId: z.string(),
   profileId: z.string(),
   closingPrice: z.coerce.number(),
@@ -15,8 +13,6 @@ const createOrderSchema = z.object({
 export class CreateOrderDTO extends Dto {
   constructor(
     public readonly tradeType: Trade,
-    public readonly quantity: number,
-    public readonly symbol: string,
     public readonly userId: string,
     public readonly profileId: string,
     public readonly closingPrice: number,
@@ -27,12 +23,10 @@ export class CreateOrderDTO extends Dto {
   public static parse(request: Request) {
     const { user } = request;
     const { profileId } = request.params;
-    const { tradeType, quantity, symbol, closingPrice } = request.body;
+    const { tradeType, closingPrice } = request.body;
 
     const zod = createOrderSchema.safeParse({
       tradeType,
-      quantity,
-      symbol,
       userId: user?.id,
       profileId,
       closingPrice,
@@ -46,13 +40,6 @@ export class CreateOrderDTO extends Dto {
 
     const data = zod.data;
 
-    return new CreateOrderDTO(
-      data.tradeType,
-      data.quantity,
-      data.symbol,
-      data.userId,
-      data.profileId,
-      data.closingPrice,
-    );
+    return new CreateOrderDTO(data.tradeType, data.userId, data.profileId, data.closingPrice);
   }
 }

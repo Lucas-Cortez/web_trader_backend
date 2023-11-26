@@ -26,16 +26,11 @@ export class QueueService<T extends Record<string, any> = Record<string, any>> {
   }
 
   protected initializeProcesses() {
-    console.log("[QUEUE]: initialized");
+    Array.from(this.processes.values()).forEach((process) => {
+      process.run();
+      console.log(`[QUEUE]: "${process.key}" running`);
+    });
 
-    Array.from(this.processes.values()).forEach((process) => process.run());
+    console.log("[QUEUE]: all running");
   }
 }
-
-type Queues = {
-  email: { name: string };
-  order: { price: number };
-};
-
-// export const queueService = new QueueService<Queues>(new PQueueQueueFactory());
-// export const queueOrchestrator = new QueueOrchestrator(new BullQueueFactory());
