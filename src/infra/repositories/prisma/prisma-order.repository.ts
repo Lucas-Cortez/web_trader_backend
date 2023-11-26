@@ -3,6 +3,12 @@ import { Order } from "core/domain/entities/order";
 import { OrderRepository } from "core/domain/repositories/order.repository";
 import { PaginationOptions } from "core/domain/entities/pagination-options";
 import { PaginatedOutput } from "core/domain/entities/paginated-output";
+import { Trade } from "application/enums/trade";
+
+const TRADE_MAPPER: Record<string, Trade> = {
+  BUY: Trade.BUY,
+  SELL: Trade.SELL,
+};
 
 export class PrismaOrderRepository implements OrderRepository {
   constructor(private readonly prismaClient: PrismaClient) {}
@@ -29,7 +35,7 @@ export class PrismaOrderRepository implements OrderRepository {
     ]);
 
     return {
-      orders: orders.map((v) => Order.restore({ ...v })),
+      orders: orders.map((v) => Order.restore({ ...v, trade: TRADE_MAPPER[v.trade] })),
       take: options?.take || totalOrders,
       skip: options?.skip || 0,
       total: totalOrders,
@@ -54,7 +60,7 @@ export class PrismaOrderRepository implements OrderRepository {
     ]);
 
     return {
-      orders: orders.map((v) => Order.restore({ ...v })),
+      orders: orders.map((v) => Order.restore({ ...v, trade: TRADE_MAPPER[v.trade] })),
       take: options?.take || totalOrders,
       skip: options?.skip || 0,
       total: totalOrders,

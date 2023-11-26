@@ -1,14 +1,14 @@
-import { Consumer } from "queue/contracts/consumer";
-import { Queue } from "queue/contracts/queue";
-import { QueueOptions } from "queue/contracts/queue-options";
+import { Queue } from "core/contracts/queue";
+import { QueueConsumer } from "core/contracts/queue-consumer";
+import { QueueOptions } from "core/contracts/queue-options";
 import PQueue from "p-queue";
 
 export class PQueueQueue implements Queue<PQueue> {
   key: string;
   queue: PQueue;
-  consumer: Consumer;
+  consumer: QueueConsumer;
 
-  constructor(key: string, consumer: Consumer, options?: QueueOptions) {
+  constructor(key: string, consumer: QueueConsumer, options?: QueueOptions) {
     this.key = key;
     this.consumer = consumer;
 

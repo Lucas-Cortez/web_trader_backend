@@ -1,5 +1,4 @@
 import { prisma } from "infra/config/prisma";
-import { BollingerBands } from "technicalindicators";
 import info from "../exchangeInfo.json";
 import fs from "fs";
 
