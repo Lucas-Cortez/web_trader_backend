@@ -37,6 +37,7 @@ export class BinanceBrokerService implements BrokerService {
 
     try {
       const response = await client.testNewOrder(symbol, side[tradeType], OrderType.MARKET, { quantity });
+      console.log(response);
 
       if (!(response.status === OrderStatus.FILLED)) return false;
 
