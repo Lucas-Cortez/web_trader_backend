@@ -15,6 +15,8 @@ export class CreateApiKeyUseCase implements IUseCase<CreateApiKeyInput, CreateAp
   ) {}
 
   async execute(input: CreateApiKeyInput): Promise<CreateApiKeyOutput> {
+    console.log(input);
+
     const account = await this.brokerService.getAccount(input.key, input.secret);
 
     if (!account) throw new AppError({ message: "invalid keys", statusCode: 406 });

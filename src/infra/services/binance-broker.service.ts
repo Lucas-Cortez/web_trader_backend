@@ -23,6 +23,8 @@ export class BinanceBrokerService implements BrokerService {
 
       return account;
     } catch (error) {
+      console.log(error);
+
       return null;
     }
   }
