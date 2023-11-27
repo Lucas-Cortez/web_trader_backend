@@ -22,12 +22,10 @@ export class BinanceBrokerService implements BrokerService {
 
     try {
       const params = new URLSearchParams({ key: apiKey, secret: apiSecret });
-      console.log(params);
 
       // const account = await client.accountInformation();
 
       const account = await axios.get(`${this.baseUrl}/broker/account?${params.toString()}`);
-      console.log(account);
 
       return account;
     } catch (error) {
