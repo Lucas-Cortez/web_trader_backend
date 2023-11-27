@@ -9,7 +9,11 @@ export class OrderConsumer implements QueueConsumer<OrderConsumerInput> {
   constructor(private readonly processOrderUseCase: ProcessOrderUseCase) {}
 
   public async handle(input: OrderConsumerInput): Promise<void> {
-    await this.processOrderUseCase.execute({ ...input });
+    try {
+      await this.processOrderUseCase.execute({ ...input });
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 

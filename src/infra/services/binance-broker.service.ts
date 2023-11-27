@@ -8,6 +8,7 @@ const side = {
 };
 
 export class BinanceBrokerService implements BrokerService {
+  // private readonly baseUrl = "https://testnet.binance.vision";
   private readonly baseUrl = process.env.BROKER_API_URL;
 
   private clientFactory(apiKey: string, apiSecret: string) {
@@ -35,6 +36,8 @@ export class BinanceBrokerService implements BrokerService {
   ): Promise<boolean> {
     const client = this.clientFactory(apiKey, apiSecret);
 
+    console.log({ apiKey, apiSecret });
+
     try {
       const response = await client.testNewOrder(symbol, side[tradeType], OrderType.MARKET, { quantity });
       console.log(response);
@@ -43,6 +46,10 @@ export class BinanceBrokerService implements BrokerService {
 
       return true;
     } catch (error) {
+      console.log(error);
+
+      if (error instanceof Error) console.log(error.message);
+
       return false;
     }
   }

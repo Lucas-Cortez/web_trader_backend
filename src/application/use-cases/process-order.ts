@@ -30,15 +30,15 @@ export class ProcessOrderUseCase implements IUseCase<ProcessOrderInput, ProcessO
     const key = this.encryptionService.decrypt(data.key);
     const secret = this.encryptionService.decrypt(data.secret);
 
-    const processed = await this.brokerService.makeOrder(
-      input.symbol,
-      input.tradeType,
-      input.quantity,
-      key,
-      secret,
-    );
+    // const processed = await this.brokerService.makeOrder(
+    //   input.symbol,
+    //   input.tradeType,
+    //   input.quantity,
+    //   key,
+    //   secret,
+    // );
 
-    if (!processed) throw new AppError({ message: "order was not completed", statusCode: 404 });
+    // if (!processed) throw new AppError({ message: "order was not completed", statusCode: 404 });
 
     const profile = await this.profileRepository.getProfileById(input.profileId, input.userId);
 
@@ -52,10 +52,13 @@ export class ProcessOrderUseCase implements IUseCase<ProcessOrderInput, ProcessO
       profileId: input.profileId,
     });
 
-    const createdOrder = await this.orderRepository.create(order);
+    const createdOrder = await this.orderRepository.create(order, input.userId);
+
+    console.log("createdOrder", createdOrder);
 
     await this.profileRepository.updateProfile(
       {
+        id: profile.id,
         version: profile.version + 1,
         lastOrderTime: createdOrder.createdAt,
         inPosition: createdOrder.trade === Trade.BUY,

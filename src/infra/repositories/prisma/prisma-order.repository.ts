@@ -13,9 +13,12 @@ const TRADE_MAPPER: Record<string, Trade> = {
 export class PrismaOrderRepository implements OrderRepository {
   constructor(private readonly prismaClient: PrismaClient) {}
 
-  async create(order: Order): Promise<Order> {
-    console.log(order);
-    throw new Error("Method not implemented.");
+  async create(order: Order, userId: string): Promise<Order> {
+    const data = await this.prismaClient.orders.create({ data: { ...order, userId } });
+
+    const newOrder = Order.restore({ ...data, trade: TRADE_MAPPER[order.trade] });
+
+    return newOrder;
   }
 
   async getUserOrders(
@@ -27,6 +30,7 @@ export class PrismaOrderRepository implements OrderRepository {
         where: { userId, createdAt: { lte: options?.endTime, gte: options?.startTime } },
         take: options?.take,
         skip: options?.skip,
+        orderBy: { createdAt: "desc" },
       }),
 
       this.prismaClient.orders.count({
@@ -52,6 +56,7 @@ export class PrismaOrderRepository implements OrderRepository {
         where: { profileId, userId, createdAt: { lte: options?.endTime, gte: options?.startTime } },
         take: options?.take,
         skip: options?.skip,
+        orderBy: { createdAt: "desc" },
       }),
 
       this.prismaClient.orders.count({

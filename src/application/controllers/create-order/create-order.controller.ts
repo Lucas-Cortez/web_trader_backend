@@ -11,8 +11,8 @@ export class CreateOrderController extends Controller {
   public async handle(request: Request, response: Response): Promise<Response> {
     const dto = CreateOrderDTO.parse(request);
 
-    // const data = await this.createOrderUseCase.execute({ ...dto });
+    const data = await this.createOrderUseCase.execute({ ...dto });
 
-    return response.status(200).json({ data: "opa" });
+    return response.status(200).json(data);
   }
 }
