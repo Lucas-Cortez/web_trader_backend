@@ -5,7 +5,7 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch ./src/server.ts",
-    "start": "node dist/server.js",
+    "start": "node dist/server.mjs",
     "format": "prettier --write \"src/**/*.ts\"",
     "build:prod": "prisma db push && tsup && npm install --omit=dev && ls node_modules",
     "build": "tsup"
