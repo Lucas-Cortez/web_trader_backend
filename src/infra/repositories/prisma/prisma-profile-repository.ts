@@ -88,13 +88,14 @@ export class PrismaProfileRepository implements ProfileRepository {
     return profile;
   }
 
-  async updateProfile(profile: Partial<ProfileEntity>, userId: string): Promise<ProfileEntity> {
-    const { id, ...restProfile } = profile;
-
+  async updateProfile(
+    profileId: string,
+    profile: Omit<Partial<ProfileEntity>, "id">,
+    userId: string,
+  ): Promise<ProfileEntity> {
     const data = await this.prismaClient.profile.update({
-      where: { id: profile.id, userId },
-      data: { ...restProfile },
-      // select: { profilestrategy: true },
+      where: { id: profileId, userId },
+      data: { ...profile },
       include: { profilestrategy: true },
     });
 

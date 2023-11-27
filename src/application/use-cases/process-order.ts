@@ -57,8 +57,8 @@ export class ProcessOrderUseCase implements IUseCase<ProcessOrderInput, ProcessO
     console.log("createdOrder", createdOrder);
 
     await this.profileRepository.updateProfile(
+      profile.id,
       {
-        id: profile.id,
         version: profile.version + 1,
         lastOrderTime: createdOrder.createdAt,
         inPosition: createdOrder.trade === Trade.BUY,

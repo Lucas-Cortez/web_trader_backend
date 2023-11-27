@@ -6,5 +6,9 @@ export interface ProfileRepository {
   deleteById(id: string, userId: string): Promise<string>;
   getProfileVersion(profileId: string, userId: string): Promise<{ version: number } | null>;
   getProfileById(profileId: string, userId: string): Promise<ProfileEntity | null>;
-  updateProfile(profile: Partial<ProfileEntity>, userId: string): Promise<ProfileEntity>;
+  updateProfile(
+    profileId: string,
+    profile: Omit<Partial<ProfileEntity>, "id">,
+    userId: string,
+  ): Promise<ProfileEntity>;
 }
